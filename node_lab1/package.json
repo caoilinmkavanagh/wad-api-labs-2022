@@ -3,8 +3,10 @@
   "version": "1.0.0",
   "description": "node lab 1",
   "main": "index.js",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "babel-node index.js",
+    "dev": "nodemon --exec npm start"
   },
   "repository": {
     "type": "git",
@@ -17,8 +19,16 @@
   },
   "homepage": "https://github.com/caoilinmkavanagh/wad-api-labs-2022#readme",
   "devDependencies": {
+    "@babel/core": "^7.22.10",
+    "@babel/node": "^7.22.10",
+    "@babel/preset-env": "^7.22.10",
     "babel-cli": "^6.26.0",
+    "babel-eslint": "^10.1.0",
     "babel-preset-env": "^1.7.0",
+    "eslint": "^8.47.0",
     "nodemon": "^3.0.1"
+  },
+  "dependencies": {
+    "dotenv": "^16.3.1"
   }
 }
