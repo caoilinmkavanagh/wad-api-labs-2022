@@ -23,6 +23,7 @@
     "express-async-handler": "^1.2.0",
     "express-session": "^1.17.3",
     "mongoose": "^7.4.3",
+    "node-fetch": "^2.7.0",
     "uniqid": "^5.4.0"
   }
 }
