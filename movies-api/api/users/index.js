@@ -19,6 +19,30 @@ router.post('/', asyncHandler(async (req, res) => {
             msg: 'Successful created new user.',
         });
     }
+    else {  //NEW CODE!!!
+        const user = await User.findByUserName(req.body.username);
+        if (user.comparePassword(req.body.password)) {
+            req.session.user = req.body.username;
+            req.session.authenticated = true;
+            res.status(200).json({
+                success: true,
+                token: "temporary-token"
+              });
+        } else {
+            res.status(401).json('authentication failed');
+        }
+    }
+}));
+
+/* // register
+router.post('/', asyncHandler(async (req, res) => {
+    if (req.query.action === 'register') {  //if action is 'register' then save to DB
+        await User(req.body).save();
+        res.status(201).json({
+            code: 201,
+            msg: 'Successful created new user.',
+        });
+    }
     else {  //Must be authenticating then! Query the DB and check if there's a match
         const user = await User.findOne(req.body);
         if (!user) {
@@ -27,7 +51,7 @@ router.post('/', asyncHandler(async (req, res) => {
             return res.status(200).json({ code: 200, msg: "Authentication Successful", token: 'TEMPORARY_TOKEN' })
         }
     }
-}));
+})); */
 
 /* // register(Create)/Authenticate User
 router.post('/', async (req, res) => {

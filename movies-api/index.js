@@ -5,12 +5,13 @@ import genresRouter from './api/genres/index.js';
 import usersRouter from './api/users/index.js';
 import './db/index.js';
 import './seedData/index.js';
-//import './db/index.js';
-//import './seedData/index.js';
+import session from 'express-session';
+import authenticate from './authenticate/index.js';
+
 
 dotenv.config();
 
-const errHandler = (err, req, res, next) => {
+const errHandler = (err, req, res) => {
   /* if the error in development then send stack trace to display whole error,
   if it's in production then just send error message  */
   if(process.env.NODE_ENV === 'production') {
@@ -24,7 +25,13 @@ const app = express();
 const port = process.env.PORT;
 
 app.use(express.json());
-app.use('/api/movies', moviesRouter);
+app.use(session({
+  secret: 'ilikecake',
+  resave: true,
+  saveUninitialized: true
+}));
+app.use('/api/movies', authenticate, moviesRouter);
+//app.use('/api/movies', moviesRouter);
 app.use('/api/genres', genresRouter);
 app.use('/api/users', usersRouter);
 app.use(errHandler);
