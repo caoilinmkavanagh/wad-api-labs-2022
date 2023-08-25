@@ -14,9 +14,20 @@ const Schema = mongoose.Schema;
   title: String
 }); */
 
+
 const UserSchema = new Schema({
   username: { type: String, unique: true, required: true},
-  password: {type: String, required: true },
+  //password: {type: String, required: true },
+  password: {
+    type: String,
+    required: true,
+    validate: {
+      validator: function(v) {
+        return /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{5,}$/.test(v);
+      },
+      message: props => `${props.value} is not a valid password!`
+    }
+  },  
   favourites: [{type: mongoose.Schema.Types.ObjectId, ref: 'Movies'}]
   //favourites: [MovieSchema]
 });
