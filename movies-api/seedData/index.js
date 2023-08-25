@@ -8,16 +8,17 @@ import dbConnection from '../db/index.js';
 
 dotenv.config();
 
+// deletes all user documents in collection and inserts test data
 async function loadUsers() {
    console.log('load user Data');
    try {
-      await userModel.deleteMany();
-      await userModel.collection.insertMany(users);
-      console.info(`${users.length} users were successfully stored.`);
+     await userModel.deleteMany();
+     await users.forEach(user => userModel.create(user));
+     console.info(`${users.length} users were successfully stored.`);
    } catch (err) {
-      console.error(`failed to Load user Data: ${err}`);
+     console.error(`failed to Load user Data: ${err}`);
    }
-}
+ }
 
 async function loadGenres() {
    console.log('load genre Data');
