@@ -17,8 +17,8 @@ const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
   username: { type: String, unique: true, required: true},
-  //password: {type: String, required: true },
-  password: {
+  password: {type: String, required: true },
+/*   password: {
     type: String,
     required: true,
     validate: {
@@ -27,7 +27,7 @@ const UserSchema = new Schema({
       },
       message: props => `${props.value} is not a valid password!`
     }
-  },  
+  },   */
   favourites: [{type: mongoose.Schema.Types.ObjectId, ref: 'Movies'}]
   //favourites: [MovieSchema]
 });
