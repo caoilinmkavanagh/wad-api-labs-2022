@@ -2,6 +2,7 @@ import express from 'express';
 import User from './userModel.js';
 import asyncHandler from 'express-async-handler';
 import jwt from 'jsonwebtoken';
+import movieModel from '../movies/movieModel.js';
 
 const router = express.Router(); 
 
@@ -36,6 +37,75 @@ router.post('/',asyncHandler( async (req, res, next) => {
       }
   }));
   
+
+
+// Update a user
+router.put('/:id', async (req, res) => {
+    if (req.body._id) delete req.body._id;
+    const result = await User.updateOne({
+        _id: req.params.id,
+    }, req.body);
+    if (result.matchedCount) {
+        res.status(200).json({ code:200, msg: 'User Updated Sucessfully' });
+    } else {
+        res.status(404).json({ code: 404, msg: 'Unable to Update User' });
+    }
+});
+
+//Add a favourite. No Error Handling Yet. Can add duplicates too!
+router.post('/:userName/favourites', asyncHandler(async (req, res) => {
+    const newFavourite = req.body.id;
+    const userName = req.params.userName;
+    const movie = await movieModel.findByMovieDBId(newFavourite);
+    const user = await User.findByUserName(userName);
+    await user.favourites.push(movie._id);
+    await user.save(); 
+    res.status(201).json(user); 
+  }));
+
+  router.get('/:userName/favourites', asyncHandler( async (req, res) => {
+    const userName = req.params.userName;
+    const user = await User.findByUserName(userName).populate('favourites');
+    res.status(200).json(user.favourites);
+  }));
+
+
+export default router;
+
+
+/* router.post('/:id/favourites', async (req, res) => {
+    const newFavourite = req.body;
+    if (newFavourite && newFavourite.id) {
+        const user = await User.findById(req.params.id);
+        if (user) {
+            user.favourites.push(newFavourite);
+            user.save();
+            res.status(201).json({ code: 201, msg: "Added Favourite" });
+        } else {
+            res.status(404).json({ code: 404, msg: 'Unable to add favourites' });
+        }
+    }
+}); */
+
+/* router.get('/:id/favourites', async (req, res) => {
+    const user = await User.findById(req.params.id);
+    if (user) {
+        res.status(200).json(user.favourites);
+    } else {
+        res.status(404).json({ code: 404, msg: 'Unable to find favourites' });
+    }
+}); */
+
+/* // register(Create)/Authenticate User
+router.post('/', async (req, res) => {
+    await User(req.body).save();
+    res.status(201).json({
+        code: 201,
+        msg: 'Successful created new user.',
+    });
+}); */
+
+
 /* 
 // register
 router.post('/', asyncHandler(async (req, res) => {
@@ -98,49 +168,3 @@ router.post('/', async (req, res) => {
         }
     }
 }); */
-
-// Update a user
-router.put('/:id', async (req, res) => {
-    if (req.body._id) delete req.body._id;
-    const result = await User.updateOne({
-        _id: req.params.id,
-    }, req.body);
-    if (result.matchedCount) {
-        res.status(200).json({ code:200, msg: 'User Updated Sucessfully' });
-    } else {
-        res.status(404).json({ code: 404, msg: 'Unable to Update User' });
-    }
-});
-
-router.post('/:id/favourites', async (req, res) => {
-    const newFavourite = req.body;
-    if (newFavourite && newFavourite.id) {
-        const user = await User.findById(req.params.id);
-        if (user) {
-            user.favourites.push(newFavourite);
-            user.save();
-            res.status(201).json({ code: 201, msg: "Added Favourite" });
-        } else {
-            res.status(404).json({ code: 404, msg: 'Unable to add favourites' });
-        }
-    }
-});
-
-router.get('/:id/favourites', async (req, res) => {
-    const user = await User.findById(req.params.id);
-    if (user) {
-        res.status(200).json(user.favourites);
-    } else {
-        res.status(404).json({ code: 404, msg: 'Unable to find favourites' });
-    }
-});
-
-/* // register(Create)/Authenticate User
-router.post('/', async (req, res) => {
-    await User(req.body).save();
-    res.status(201).json({
-        code: 201,
-        msg: 'Successful created new user.',
-    });
-}); */
-export default router;
