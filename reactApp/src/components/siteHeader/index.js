@@ -8,7 +8,7 @@ const SiteHeader = () => {
     <AppBar position="static">
       <Toolbar>
         <Typography variant="h6" style={{ flexGrow: 1 }}>
-          My App
+          MERN Stack
         </Typography>
         <Button color="inherit">
           <Link to="/movies" style={{ textDecoration: 'none', color: 'white' }}>
