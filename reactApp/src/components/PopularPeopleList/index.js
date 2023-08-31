@@ -46,15 +46,6 @@ const PopularPeopleList = () => {
             <Typography>
             <img src={`https://image.tmdb.org/t/p/w500${person.profile_path}`} alt={person.name} />
             <p><strong>Known For:</strong> {person.known_for_department}</p>
-            <ul>
-                {person.known_for.map((movie, index) => (
-                  <li key={index}>
-                    <strong>{movie.title}</strong> ({movie.release_date})
-                    <br />
-                    {movie.overview}
-                  </li>
-                ))}
-              </ul>
               <ul>
                 {person.known_for.map((movie, index) => (
                   <li key={index}>

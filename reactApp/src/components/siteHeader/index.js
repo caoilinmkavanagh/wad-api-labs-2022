@@ -20,11 +20,6 @@ const SiteHeader = () => {
             Popular People
           </Link>
         </Button>
-        <Button color="inherit">
-          <Link to="/movies/:id/review" style={{ textDecoration: 'none', color: 'white' }}>
-            Review
-          </Link>
-        </Button>
         <Box sx={{ marginLeft: 'auto' }}>
           <BaseAuthHeader />
         </Box>
