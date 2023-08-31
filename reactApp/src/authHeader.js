@@ -1,20 +1,26 @@
 import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "./authContext";
+import { Typography, Button } from '@mui/material';
 
 const BaseAuthHeader = (props) => {
   const context = useContext(AuthContext);
   const navigate = useNavigate();
 
   return context.isAuthenticated ? (
-    <p>
-      Welcome {context.userName}! <button onClick={() => context.signout()}>Sign out</button>
-    </p>
+    <Typography variant="body2">
+      {" "}
+      <Button size="small" variant="contained" color="secondary" onClick={() => context.signout()}>
+        Sign out
+      </Button>
+    </Typography>
   ) : (
-    <p>
-      You are not logged in{" "}
-      <button onClick={() => navigate('/login')}>Login</button>
-    </p>
+    <Typography variant="body2">
+      {" "}
+      <Button size="small" variant="contained" color="secondary" onClick={() => navigate('/login')}>
+        Login
+      </Button>
+    </Typography>
   );
 };
 

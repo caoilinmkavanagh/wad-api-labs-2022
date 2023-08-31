@@ -1,9 +1,10 @@
 import React, { useContext, useState } from "react";
 import { Navigate } from "react-router-dom";
-import { AuthContext } from './authContext';
+import { AuthContext } from "./authContext";
+import { TextField, Button, Typography, Container } from '@mui/material';
 
 const SignUpPage = props => {
-  const context = useContext(AuthContext)
+  const context = useContext(AuthContext);
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [passwordAgain, setPasswordAgain] = useState("");
@@ -17,28 +18,61 @@ const SignUpPage = props => {
       context.register(userName, password);
       setRegistered(true);
     }
-  }
+  };
 
   if (registered === true) {
-    return <Navigate to="/login" />;
+    return <Navigate to="/" />;
   }
 
   return (
-    <>
-      <h2>SignUp page</h2>
-      <p>You must register a username and password to log in </p>
-      <input value={userName} placeholder="user name" onChange={e => {
-        setUserName(e.target.value);
-      }}></input><br />
-      <input value={password} type="password" placeholder="password" onChange={e => {
-        setPassword(e.target.value);
-      }}></input><br />
-      <input value={passwordAgain} type="password" placeholder="password again" onChange={e => {
-        setPasswordAgain(e.target.value);
-      }}></input><br />
-      {/* Login web form  */}
-      <button onClick={register}>Register</button>
-    </>
+    <Container component="main" maxWidth="xs">
+      <Typography variant="h5">Sign Up</Typography>
+      <Typography variant="subtitle1">
+        You must register a username and password to log in.
+      </Typography>
+
+      <TextField
+        variant="outlined"
+        margin="normal"
+        required
+        fullWidth
+        label="User Name"
+        autoFocus
+        value={userName}
+        onChange={e => setUserName(e.target.value)}
+      />
+
+      <TextField
+        variant="outlined"
+        margin="normal"
+        required
+        fullWidth
+        label="Password"
+        type="password"
+        value={password}
+        onChange={e => setPassword(e.target.value)}
+      />
+
+      <TextField
+        variant="outlined"
+        margin="normal"
+        required
+        fullWidth
+        label="Confirm Password"
+        type="password"
+        value={passwordAgain}
+        onChange={e => setPasswordAgain(e.target.value)}
+      />
+
+      <Button
+        fullWidth
+        variant="contained"
+        color="primary"
+        onClick={register}
+      >
+        Register
+      </Button>
+    </Container>
   );
 };
 

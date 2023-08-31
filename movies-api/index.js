@@ -3,6 +3,7 @@ import express from 'express';
 import moviesRouter from './api/movies/index.js';
 import genresRouter from './api/genres/index.js';
 import usersRouter from './api/users/index.js';
+import cors from 'cors';
 import './db/index.js';
 import './seedData/index.js';
 //import session from 'express-session';
@@ -21,11 +22,14 @@ const errHandler = (err, req, res) => {
   res.status(500).send(`Hey!! You caught the error 👍👍. Here's the details: ${err.stack} `);
 };
 
-const app = express();
 
+
+const app = express();
+//const cors = require('cors');
 const port = process.env.PORT;
 
 app.use(express.json());
+app.use(cors());
 app.use(passport.initialize());
 /* app.use(session({
   secret: 'ilikecake',
